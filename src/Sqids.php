@@ -11,6 +11,8 @@
 
 namespace Sqids;
 
+require_once __DIR__ . '/shim.php';
+
 use Sqids\Math\BCMath;
 use Sqids\Math\Gmp;
 use Sqids\Math\MathInterface;
@@ -19,9 +21,9 @@ use RuntimeException;
 
 class Sqids implements SqidsInterface
 {
-    final public const DEFAULT_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final public const DEFAULT_MIN_LENGTH = 0;
-    final public const DEFAULT_BLOCKLIST = [
+    public const DEFAULT_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    public const DEFAULT_MIN_LENGTH = 0;
+    public const DEFAULT_BLOCKLIST = [
         "0rgasm",
         "1d10t",
         "1d1ot",
@@ -588,9 +590,9 @@ class Sqids implements SqidsInterface
 
     /** @throws \InvalidArgumentException */
     public function __construct(
-        protected string $alphabet = self::DEFAULT_ALPHABET,
-        protected int $minLength = self::DEFAULT_MIN_LENGTH,
-        protected array $blocklist = self::DEFAULT_BLOCKLIST,
+        string $alphabet = self::DEFAULT_ALPHABET,
+        int $minLength = self::DEFAULT_MIN_LENGTH,
+        array $blocklist = self::DEFAULT_BLOCKLIST
     ) {
         $this->math = $this->getMathExtension();
 
@@ -627,7 +629,7 @@ class Sqids implements SqidsInterface
             if (strlen((string) $word) >= 3) {
                 $wordLowercased = strtolower($word);
                 $wordChars = str_split((string) $wordLowercased);
-                $intersection = array_filter($wordChars, fn($c) => in_array($c, $alphabetChars));
+                $intersection = array_filter($wordChars, fn ($c) => in_array($c, $alphabetChars));
                 if (count($intersection) == count($wordChars)) {
                     $filteredBlocklist[] = strtolower((string) $wordLowercased);
                 }
@@ -655,7 +657,7 @@ class Sqids implements SqidsInterface
             return '';
         }
 
-        $inRangeNumbers = array_filter($numbers, fn($n) => $n >= 0 && $n <= self::maxValue());
+        $inRangeNumbers = array_filter($numbers, fn ($n) => $n >= 0 && $n <= self::maxValue());
         if (count($inRangeNumbers) != count($numbers)) {
             throw new InvalidArgumentException(
                 'Encoding supports numbers between 0 and ' . self::maxValue()
