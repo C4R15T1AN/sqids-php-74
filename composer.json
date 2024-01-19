@@ -1,5 +1,5 @@
 {
-    "name": "cy/sqids-php-74",
+    "name": "c4r15t1an/sqids-php-74",
     "description": "This is a fork of the original Sqids PHP library.(https://github.com/sqids/sqids-php) You should use that. This fork is only for PHP 7.4 compatibility and will not be maintained.",
     "license": "MIT",
     "authors": [],
